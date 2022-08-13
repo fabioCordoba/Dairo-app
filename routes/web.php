@@ -26,3 +26,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::group(['middleware' => ['role:ROOT|ADMINISTRADOR']], function () {
+    Route::middleware(['auth:sanctum', 'verified'])->get('/usuarios', function () {
+        return view('users');
+    })->name('usuarios');
+});

@@ -56,7 +56,8 @@ class Users extends Component
                 'name' => $this->name ,
                 'email' => $this->email,
                 'identificacion' => $this->identificacion,
-                'telefono' => $this->telefono
+                'telefono' => $this->telefono,
+                'estado' => 'Activo'
             ]);
 
              User::find($this->id_user)->syncRoles($this->rol);
@@ -66,11 +67,12 @@ class Users extends Component
             User::find($this->id_user)->update([
                 'name' => $this->name ,
                 'email' => $this->email,
+                'estado' => 'Activo'
             ]);
         }
 
         $this->closeModal('Edit');
-        $this->dispatchBrowserEvent('UserUpdate');
+        $this->dispatchBrowserEvent('msj',['msj' => 'Registro Actualizado con exito.', 'tipo' => 'alert-success']);
 
     }
 
@@ -79,7 +81,9 @@ class Users extends Component
     }
 
     public function delete($id){
-        User::find($id)->delete();
+        User::find($id)->update([
+            'estado' => 'Desactivo'
+        ]);
         $this->dispatchBrowserEvent('Delete');
     }
     

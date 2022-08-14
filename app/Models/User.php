@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
         'telefono',
         'identificacion',
+        'estado',
     ];
 
     /**
@@ -62,4 +63,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function domiciliosAdmin()
+    {
+        return $this->hasMany('App\Models\Domicilio', 'admin_id');
+    }
+
+    public function domiciliosDomic()
+    {
+        return $this->hasMany('App\Models\Domicilio', 'domiciliario_id');
+    }
 }

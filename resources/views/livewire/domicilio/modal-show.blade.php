@@ -1,20 +1,17 @@
 <!-- Modal Show-->
 <div wire:ignore.self  class="modal fade" id="modal-Show" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md font-sans h-screen w-full flex flex-row justify-center items-center"  style="margin-top: 20px;">
-    @if ($product)
+    @if ($domicilio)
     <div class="modal-content card w-96 mx-auto bg-white shadow-xl hover:shadow">
-        <img class="w-32 mx-auto rounded-full -mt-20 border-8 border-white" src="{{asset($product->foto)}}" alt="">
         
-        <div class="text-center mt-2 text-3xl font-medium">{{$product->nombre}}</div>
-        <div class="text-center mt-2 font-normal text-sm">{{$product->subCategoryProduct->Category->name}}/{{$product->subCategoryProduct->name}}</div>
-        <div class="text-center mt-2 font-normal text-sm">{{$product->email}}</div>
-        <div class="text-center font-normal text-lg">$ {{ $product->precio }} UND</div>
-        <div class="text-center font-normal text-lg">{{ $product->estado }}</div>
+        <div class="text-center mt-2 text-3xl font-medium">Codigo: {{$domicilio->codigo}}</div>
+        <div class="text-center mt-2 font-normal text-sm">Sede: {{$domicilio->admin->name}}</div>
+        <div class="text-center mt-2 font-normal text-sm">Asignado a: {{$domicilio->domiciliario->name}}</div>
+        <div class="text-center font-normal text-lg">Estado: {{ $domicilio->estado }}</div>
         <div class="px-6 text-center mt-2 font-light text-sm">
-        <p>
-            {{$product->Descripcion}}
-        </p>
-        <div class="text-center mt-2 font-normal text-sm">Cant Min: {{$product->cantidadMin}} - Dias Antisipacion: {{$product->anticipacionDias}} - Cant Stock: {{$product->stock}} </div>
+        
+            <div class="text-center mt-2 font-normal text-sm">Fecha creado: {{$domicilio->created_at}}</div>
+            <div class="text-center mt-2 font-normal text-sm">Fecha Actualizado: {{$domicilio->updated_at}}</div>
         </div>
         
         <div class="modal-header">

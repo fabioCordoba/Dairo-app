@@ -1,7 +1,7 @@
 /**
  * Evento para cerrar modal 
  */
- window.addEventListener('closeModal', event => {
+window.addEventListener('closeModal', event => {
     $('#modal-'+event.detail.modal).modal('hide');
 });
 
@@ -11,6 +11,38 @@
 window.addEventListener('openModal', event => {
     $('#modal-'+event.detail.modal).modal('show');
 });
+
+/**
+ * Evento para Notificar 
+ */
+window.addEventListener('msj', event => {
+    /*
+    'alert-success'
+    'alert-danger'
+    'alert-warning'
+    */
+    MsgDetallado(event.detail.tipo, event.detail.msj);
+});
+
+/**
+ * 
+ * 
+ */
+function abrirSala(url){
+
+    //console.log('log abrirSala(): '+urlmeet);
+
+    //var win = window.open(url, '_blank');
+    var win = window.location.href = url;
+    if (win) {
+        //Browser has allowed it to be opened
+        win.focus();
+    } else {
+        //Browser has blocked it
+        alert('Please allow popups for this website');
+    }
+
+}
 
 /**
  * Evento para Notificar que el usuario se Actualizo con exito
@@ -34,10 +66,17 @@ window.addEventListener('UserUpdate', event => {
 });
 
 /**
- * Evento para Notificar que se agrego prd al carrito
+ * Evento para Notificar que el Registro se creo con exito
  */
- window.addEventListener('success-car', event => {
-    MsgDetallado('alert-success', 'Producto agregado al carrito...');
+ window.addEventListener('success-msj', event => {
+    MsgDetallado('alert-success', event.detail.msj);
+});
+
+/**
+ * Evento para Notificar que el Registro se creo con exito
+ */
+ window.addEventListener('ticket-success', event => {
+    MsgDetallado('alert-success', 'Ticket Asignado a soporte con exito...');
 });
 
 /**
@@ -46,7 +85,6 @@ window.addEventListener('UserUpdate', event => {
  window.addEventListener('Delete', event => {
     MsgDetallado('alert-success', 'Registro Eliminado con exito...');
 });
-
 
 /**
  * Evento para validar la eliminar Registro
@@ -202,5 +240,3 @@ function token(){
 function cleanForm(idformulario) {
     $('#'+idformulario)[0].reset();
 }
-
-

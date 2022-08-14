@@ -28,7 +28,16 @@ Route::middleware([
 });
 
 Route::group(['middleware' => ['role:ROOT|ADMINISTRADOR']], function () {
-    Route::middleware(['auth:sanctum', 'verified'])->get('/usuarios', function () {
+    Route::middleware(['auth:sanctum', 'verified'])->get('/users', function () {
         return view('users');
-    })->name('usuarios');
+    })->name('users');
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/domicilios', function () {
+    return view('domicilios');
+})->name('domicilios');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/bonificados', function () {
+    return view('bonificados');
+})->name('bonificados');
+

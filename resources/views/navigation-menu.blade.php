@@ -20,8 +20,26 @@
                 @role('ROOT|ADMINISTRADOR')
                 <!-- Navigation User-->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('usuarios') }}" :active="request()->routeIs('usuarios')">
+                    <x-jet-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
                         {{ __('Usuarios') }}
+                    </x-jet-nav-link>
+                </div>
+                @endrole
+
+                @role('ROOT|ADMINISTRADOR')
+                <!-- Navigation Domicilios-->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('domicilios') }}" :active="request()->routeIs('domicilios')">
+                        {{ __('Domicilios') }}
+                    </x-jet-nav-link>
+                </div>
+                @endrole
+
+                @role('ROOT|ADMINISTRADOR')
+                <!-- Navigation Domicilios-->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('bonificados') }}" :active="request()->routeIs('bonificados')">
+                        {{ __('Bonificados') }}
                     </x-jet-nav-link>
                 </div>
                 @endrole

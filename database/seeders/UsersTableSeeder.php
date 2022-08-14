@@ -22,9 +22,10 @@ class UsersTableSeeder extends Seeder
             'telefono' => '3100000000',
             'email' => 'Admin@gmail.com',
             'password' => Hash::make('admin'),
+            'estado' => 'Activo'
         ]);
 
-        $admin->assignRole('ADMINISTRADOR');
+        $admin->assignRole('ROOT');
 
         $asesor = User::create([
             'identificacion' => '0000000002',
@@ -32,6 +33,40 @@ class UsersTableSeeder extends Seeder
             'telefono' => '3100000000',
             'email' => 'domiciliario1@gmail.com',
             'password' => Hash::make('domic'),
+            'estado' => 'Activo'
+        ]);
+
+        $asesor->assignRole('DOMICILIARIO');
+
+        $asesor = User::create([
+            'identificacion' => '0000000003',
+            'name' => 'Domiciliario 2',
+            'telefono' => '3100000000',
+            'email' => 'domiciliario2@gmail.com',
+            'password' => Hash::make('domic'),
+            'estado' => 'Activo'
+        ]);
+
+        $asesor->assignRole('DOMICILIARIO');
+
+        $asesor = User::create([
+            'identificacion' => '0000000004',
+            'name' => 'Domiciliario 3',
+            'telefono' => '3100000000',
+            'email' => 'domiciliario3@gmail.com',
+            'password' => Hash::make('domic'),
+            'estado' => 'Activo'
+        ]);
+
+        $asesor->assignRole('DOMICILIARIO');
+
+        $asesor = User::create([
+            'identificacion' => '0000000005',
+            'name' => 'Domiciliario 4',
+            'telefono' => '3100000000',
+            'email' => 'domiciliario4@gmail.com',
+            'password' => Hash::make('domic'),
+            'estado' => 'Activo'
         ]);
 
         $asesor->assignRole('DOMICILIARIO');

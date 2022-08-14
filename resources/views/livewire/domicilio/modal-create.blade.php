@@ -3,7 +3,7 @@
         <div class="modal-dialog modal-lg" style="margin-top: 20px;"> >
             <div class="modal-content">
                 <div class="modal-header" style="padding: 10px;">
-                    <h5 class="modal-title">Crear un nuevo Producto</h5>
+                    <h5 class="modal-title">Solicitar Servicio a Domicilio</h5>
                     <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition" wire:click="closeModal('Create')" aria-label="Close">Close</button>
                 </div>
                 <div class="modal-body" style="padding: 10px;">
@@ -27,11 +27,11 @@
                             <div class="cc col-md-6">
     
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Categorias</label>
-                                    <select class="form-control" id="catego" name="catego" wire:model="catego">
+                                    <label for="exampleFormControlSelect1">Domiciliarios</label>
+                                    <select class="form-control" id="domiciliario" name="domiciliario" wire:model="domiciliario">
                                         <option value="0" selected>seleccione una opcion</option>   
-                                       @if ($categorias)
-                                            @foreach ($categorias as $cat)
+                                       @if ($domiciliarios)
+                                            @foreach ($domiciliarios as $cat)
                                                 <option value="{{$cat->id}}">{{$cat->name}}</option>                              
                                             @endforeach
                                         
@@ -42,25 +42,9 @@
                                   </div>
                             </div>
 
-                            @if ($catego)
-                                <div class="cc col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Sub Categorias</label>
-                                        <select class="form-control" id="subCat" name="subCat" wire:model="subCat">
-                                            <option value="0" selected>seleccione una opcion</option>   
-                                            @foreach ($subcategoria as $sub)
-                                                @if ($sub->categoria_id == $catego)
-                                                    <option value="{{$sub->id}}">{{$sub->name}}</option>                              
-                                                @endif
-                                            @endforeach
-                                        
-                                        </select>
-                                    </div>
-                                </div>
-                            @endif
                         </div>
     
-                        <div class="row">
+                        {{--<div class="row">
                             <div class="cc col-md-12">
                                 <div class="input-group input-group-sm mb-3">
                                     <div class="input-group-prepend">
@@ -120,7 +104,7 @@
                             <!----> <input type="number" class="form-control" aria-label="Sizing example input" id="cantidadMin" name="cantidadMin" wire:model="cantidadMin"  aria-describedby="inputGroup-sizing-sm">
                                 </div>
                             </div>
-                        </div>
+                        </div>--}}
         
                         <div class="row">
                             <div class="col-md-4">

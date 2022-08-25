@@ -14,7 +14,7 @@ class Domicilios extends Component
 {
     use WithFileUploads;
 
-    public $domicilio, $admin, $domiciliario, $swstore;
+    public $domicilio, $admin, $domiciliario, $swstore, $domicilios, $estado;
     protected $listeners = ['say-delete' => 'delete'];
 
     public function abrirModal($id, $modal){
@@ -54,6 +54,7 @@ class Domicilios extends Component
         $this->admin = null;
         $this->domiciliario = null;
         $this->swstore = null;
+        $this->estado = null;
     }
 
     public function Store(){
@@ -90,9 +91,24 @@ class Domicilios extends Component
 
         }else if($this->swstore == 'Edit'){
 
-            Domicilio::find($this->domicilio->id)->update([
-                'domiciliario_id' => $this->domiciliario,
-            ]);
+            if($this->estado != null){
+                $this->domicilio->update([
+                    'domiciliario_id' => $this->domiciliario,
+                    'estado' => $this->estado
+                ]);
+
+                /*
+                 Domicilio::find($this->domicilio->id)->update([
+                    'domiciliario_id' => $this->domiciliario,
+                    'estado' => $this->estado
+                ]);
+                 */
+            }else{
+                $this->domicilio->update([
+                    'domiciliario_id' => $this->domiciliario,
+                ]);
+            }
+
 
             $this->closeModal('Create');
             $this->dispatchBrowserEvent('msj',['msj' => 'Registro Actualizado con exito.', 'tipo' => 'alert-success']);
@@ -119,11 +135,18 @@ class Domicilios extends Component
         $dom = User::role('DOMICILIARIO')->where('estado','Activo')->orderBy('id', 'ASC')->get();
         $dm = Domicilio::all();
 
-        $next = User::role('DOMICILIARIO')
-            ->where('estado','Activo')
-            ->where('id', '>', $dm->last()->domiciliario_id)
-            ->orderBy('id', 'ASC')
-            ->first();
+        if($dm->count() > 0){
+            $next = User::role('DOMICILIARIO')
+                ->where('estado','Activo')
+                ->where('id', '>', $dm->last()->domiciliario_id)
+                ->orderBy('id', 'ASC')
+                ->first();
+        }else{
+            $next = User::role('DOMICILIARIO')
+                ->where('estado','Activo')
+                ->orderBy('id', 'ASC')
+                ->first();
+        }
 
         if($dm->count() > 0){
             $codigo = ($dm->last()->id + 1);
@@ -132,6 +155,8 @@ class Domicilios extends Component
         }
         
         $codigo = sprintf("%05d", $codigo);
+
+        
             
         if($next){
 
@@ -158,17 +183,26 @@ class Domicilios extends Component
             $this->closeModal('Create');
             $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
         }
+         
+    }
 
-
-    
-        
-        
+    public function entregar($id){
+        Domicilio::find($id)->update([
+            'estado' => 'Entregado'
+        ]);
+        $this->dispatchBrowserEvent('msj',['msj' => 'Domicilio Marcado Como Entregado.', 'tipo' => 'alert-success']);
     }
 
     public function render()
     {
+
+        if(Auth::user()->roles->implode('name', ',') == 'DOMICILIARIO'){
+            $this->domicilios = Domicilio::where('domiciliario_id',Auth::user()->id)->orderBy('id', 'DESC')->get();
+        }else{
+            $this->domicilios = Domicilio::orderBy('id', 'DESC')->get();
+        }
+
         return view('livewire.domicilios',[
-            'domicilios' => Domicilio::orderBy('id', 'DESC')->paginate(10),
             'domiciliarios' => User::role('DOMICILIARIO')->where('estado','Activo')->get()
         ]);
     }

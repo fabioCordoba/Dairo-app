@@ -26,7 +26,7 @@
                 </div>
                 @endrole
 
-                @role('ROOT|ADMINISTRADOR')
+                @role('ROOT|ADMINISTRADOR|DOMICILIARIO')
                 <!-- Navigation Domicilios-->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('domicilios') }}" :active="request()->routeIs('domicilios')">
@@ -40,6 +40,15 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('bonificados') }}" :active="request()->routeIs('bonificados')">
                         {{ __('Bonificados') }}
+                    </x-jet-nav-link>
+                </div>
+                @endrole
+
+                @role('ROOT|ADMINISTRADOR|DOMICILIARIO')
+                <!-- Navigation Domicilios-->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('pagos') }}" :active="request()->routeIs('pagos')">
+                        {{ __('Pagos') }}
                     </x-jet-nav-link>
                 </div>
                 @endrole

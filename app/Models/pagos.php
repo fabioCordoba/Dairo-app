@@ -5,30 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Domicilio extends Model
+class pagos extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'codigo',
-        'admin_id',
-        'domiciliario_id',
-        'pago_id',
-        'estado',
+        'cant',
+        'valor',
+        'domiciliario_id'
     ];
-
-    public function admin()
-    {
-        return $this->belongsTo('App\Models\User', 'admin_id');
-    }
 
     public function domiciliario()
     {
         return $this->belongsTo('App\Models\User', 'domiciliario_id');
     }
 
-    public function pagos()
+    public function domicilios()
     {
-        return $this->belongsTo('App\Models\pagos', 'pago_id');
+        return $this->hasMany('App\Models\Domicilio', 'pago_id');
     }
+
 }

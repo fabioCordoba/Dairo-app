@@ -73,4 +73,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Domicilio', 'domiciliario_id');
     }
+
+    public function pagos()
+    {
+        return $this->hasMany('App\Models\pagos', 'domiciliario_id');
+    }
 }

@@ -24,8 +24,9 @@
                         {{csrf_field()}}
 
                         <div class="row">
+                            @if (Auth::user()->roles->implode('name', ',') != 'DOMICILIARIO')
+                                
                             <div class="cc col-md-6">
-    
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Domiciliarios</label>
                                     <select class="form-control" id="domiciliario" name="domiciliario" wire:model="domiciliario">
@@ -39,73 +40,31 @@
                                         
                                         @endif
                                     </select>
-                                  </div>
-                            </div>
-
-                        </div>
-    
-                        {{--<div class="row">
-                            <div class="cc col-md-12">
-                                <div class="input-group input-group-sm mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text font-italic" id="inputGroup-sizing-sm" style="color: black;">Nombre</span>
-                                    </div>
-                            <!----> <input type="text" class="form-control" id="nombre" name="nombre" wire:model="nombre" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                    <div class="input-group-prepend input-group-append">
-                                        <span class="input-group-text font-italic" id="inputGroup-sizing-sm" style="color: black;">Descripcion</span>
-                                    </div>
-                            <!----> <input type="text" class="form-control" aria-label="Sizing example input" id="Descripcion" name="Descripcion" wire:model="Descripcion"  aria-describedby="inputGroup-sizing-sm">
                                 </div>
                             </div>
-                        </div>
+                            @endif
 
-                        <div class="row">
-                            <div class="cc col-md-6">
-                                <div class="input-group input-group-sm mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text font-italic" id="inputGroup-sizing-sm" style="color: black;">Precio</span>
-                                    </div>
-                            <!----> <input type="text" class="form-control" id="precio" name="precio" wire:model="precio" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                    
-                                </div>
-                            </div>
-
-                            <div class="cc col-md-6">
-                                <div class="input-group input-group-sm mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text font-italic" id="inputGroup-sizing-sm" style="color: black;">Stock</span>
-                                    </div>
-                            <!----> <input type="number" class="form-control" id="stock" name="stock" wire:model="stock" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                    
-                                </div>
-                            </div>
+                            @if ($swstore == 'Edit')
 
                             <div class="cc col-md-6">
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Foto</label>
-                                    <input type="file"  id="foto" name="foto" wire:model="foto"  aria-describedby="inputGroup-sizing-sm">
-                                    
-                                  </div>
-
+                                    <label for="exampleFormControlSelect1">Estado</label>
+                                    <select class="form-control" id="estado" name="estado" wire:model="estado">
+                                        <option value="0" selected>seleccione una opcion</option>   
+                                        <option value="En Camino">En Camino</option> 
+                                        @if (Auth::user()->roles->implode('name', ',') != 'DOMICILIARIO')
+                                        <option value="Entregado">Entregado</option> 
+                                        <option value="Rechazado">Rechazado</option>                              
+                                            
+                                        @endif
+                                    </select>
+                                </div>
                             </div>
+                                
+                            @endif
 
                         </div>
 
-                        <div class="row">
-                            <div class="cc col-md-12">
-                                <div class="input-group input-group-sm mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text font-italic" id="inputGroup-sizing-sm" style="color: black;">Dias de anticipacion</span>
-                                    </div>
-                            <!----> <input type="number" class="form-control" id="anticipacionDias" name="anticipacionDias" wire:model="anticipacionDias" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                                    <div class="input-group-prepend input-group-append">
-                                        <span class="input-group-text font-italic" id="inputGroup-sizing-sm" style="color: black;">Cantidad Minima</span>
-                                    </div>
-                            <!----> <input type="number" class="form-control" aria-label="Sizing example input" id="cantidadMin" name="cantidadMin" wire:model="cantidadMin"  aria-describedby="inputGroup-sizing-sm">
-                                </div>
-                            </div>
-                        </div>--}}
-        
                         <div class="row">
                             <div class="col-md-4">
                                 <button type="button" class="btn btn-sm btn-outline-info" wire:click="Store">Crear</button>

@@ -124,22 +124,22 @@
     <table class="w-full divide-y divide-gray-200">
       <thead>
         <tr>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 bg-gray-200 text-gray-600 text-center text-xs font-medium  uppercase tracking-wider">
                 Foto
             </th>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 bg-gray-200 text-gray-600 text-center text-xs font-medium  uppercase tracking-wider">
                 Informacion Personal
             </th>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 bg-gray-200 text-gray-600 text-center text-xs font-medium  uppercase tracking-wider">
                 Contacto
             </th>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 bg-gray-200 text-gray-600 text-center text-xs font-medium  uppercase tracking-wider">
                 Status
             </th>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 bg-gray-200 text-gray-600 text-center text-xs font-medium  uppercase tracking-wider">
                 Rol
             </th>
-            <th scope="col" class="px-6 py-3 bg-gray-50 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th scope="col" class="px-6 py-3 bg-gray-200 text-gray-600 text-center text-xs font-medium  uppercase tracking-wider">
                 Opciones
             </th>
         </tr>
@@ -165,15 +165,21 @@
                         <div class="text-sm text-gray-900">{{$usuario->telefono}}</div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-center">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          {{$usuario->estado}}
-                        </span>
+                        @if ($usuario->estado == 'Desactivo')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    {{$usuario->estado}}
+                                </span>
+                            @else
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    {{$usuario->estado}}
+                                </span>
+                            @endif
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                         {{$usuario->roles->implode('name', ',')}}
                       </td>
                       <td style="width: 170px;">
-                        @if ($usuario->roles->implode('name', ',') != 'ROOT')
+                        @if ($usuario->roles->implode('name', ',') != 'ADMINISTRADOR')
                         <div class="flex item-center justify-center">
                             <button type="button" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" wire:click="abrirModal({{$usuario->id}},'Show')" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

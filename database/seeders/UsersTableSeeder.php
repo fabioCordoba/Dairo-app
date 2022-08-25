@@ -25,7 +25,18 @@ class UsersTableSeeder extends Seeder
             'estado' => 'Activo'
         ]);
 
-        $admin->assignRole('ROOT');
+        $admin->assignRole('ADMINISTRADOR');
+
+        $admin = User::create([
+            'identificacion' => '0000000002',
+            'name' => 'Servi Plus',
+            'telefono' => '3100000000',
+            'email' => 'Admin2@gmail.com',
+            'password' => Hash::make('admin'),
+            'estado' => 'Activo'
+        ]);
+
+        $admin->assignRole('ADMINISTRADOR');
 
         $asesor = User::create([
             'identificacion' => '0000000002',

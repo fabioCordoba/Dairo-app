@@ -45,5 +45,7 @@ class RolesAndPermissions extends Seeder
         $role = Role::create(['name' => 'DOMICILIARIO']);
         $role->givePermissionTo('read product');
         $role->givePermissionTo('sell product');
+
+        $role = Role::create(['name' => 'GUEST']);
     }
 }

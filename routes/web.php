@@ -41,3 +41,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/bonificados', function ()
     return view('bonificados');
 })->name('bonificados');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/pagos', function () {
+    return view('pagos');
+})->name('pagos');
+

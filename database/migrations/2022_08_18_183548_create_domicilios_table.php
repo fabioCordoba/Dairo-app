@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('codigo')->unique();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('domiciliario_id');
+            $table->unsignedBigInteger('domiciliario_id')->nullable();
             $table->foreign('domiciliario_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('pago_id')->nullable();
             $table->foreign('pago_id')->references('id')->on('pagos')->onDelete('cascade');

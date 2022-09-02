@@ -6,7 +6,12 @@
         
         <div class="text-center mt-2 text-3xl font-medium">Codigo: {{$domicilio->codigo}}</div>
         <div class="text-center mt-2 font-normal text-sm">Sede: {{$domicilio->admin->name}}</div>
+        @if ($domicilio->domiciliario)
+            
         <div class="text-center mt-2 font-normal text-sm">Asignado a: {{$domicilio->domiciliario->name}}</div>
+        @else
+        <div class="text-center mt-2 font-normal text-sm">Asignado a: ---</div>
+        @endif
         <div class="text-center font-normal text-lg">Estado: {{ $domicilio->estado }}</div>
         <div class="px-6 text-center mt-2 font-light text-sm">
         

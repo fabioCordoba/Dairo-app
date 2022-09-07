@@ -54,7 +54,7 @@
                             @endif
                         </td>
                         <td style="width: 170px;">
-                          @if (Auth::user()->roles->implode('name', ',') == 'ROOT' && $domiciliario->domiciliosDomic->where('estado', 'Entregado')->count() > 0)
+                          @if (Auth::user()->roles->implode('name', ',') == 'ADMINISTRADOR' && $domiciliario->domiciliosDomic->where('estado', 'Entregado')->count() > 0)
                           <div class="flex item-center justify-center">
                               
                               <button type="button" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" wire:click="pagarBonificados({{$domiciliario->id}})" data-bs-toggle="tooltip" data-bs-placement="top" title="Pagar">

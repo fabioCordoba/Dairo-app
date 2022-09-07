@@ -79,6 +79,10 @@
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-200 text-blue-600">
                                     {{$domicilio->estado}}
                                 </span>
+                            @elseif ($domicilio->estado == 'Pagado')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    {{$domicilio->estado}}
+                                </span>
                             @endif
                         </td>
                         <td style="width: 170px;">
@@ -117,11 +121,11 @@
                                   
                               @endif
                           </div>
-                          @elseif (Auth::user()->roles->implode('name', ',') == 'DOMICILIARIO')
+                          @elseif (Auth::user()->roles->implode('name', ',') == 'DOMICILIARIO' )
 
                           <div class="flex item-center justify-center">
                             
-                            @if ($domicilio->estado == 'Rechazado' || $domicilio->estado == 'Entregado')
+                            @if ($domicilio->estado == 'Rechazado' || $domicilio->estado == 'Entregado' || $domicilio->estado == 'Pagado')
                             
                             @else
                             <button type="button" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" wire:click="abrirModal({{$domicilio->id}},'Edit')" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">

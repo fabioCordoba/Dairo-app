@@ -10,32 +10,24 @@ use Illuminate\Support\Facades\Validator;
 
 class DomicilioController extends Controller
 {
-    public function misDomicilios(Request $request)
+    public function misDomicilios($id)
     {
-        Validator::make($request->all(), [
-            'id' => 'required',
-            'email' => 'required|string',
-        ])->validate();
-        
-        $user = User::find($request->id);
+        $user = User::find($id);
+        $usuario = User::find($user->id);
 
         if($user->roles->implode('name', ',') == 'DOMICILIARIO'){
 
             return response([
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'rol' => $user->roles->implode('name', ','),
-                'domicilios' => $user->domiciliosDomic()->get(),
+                'user' => $usuario,
+                'domicilios' => $user->domiciliosDomic()->with('admin:id,name')->orderBy('id', 'DESC')->get(),
             ], 200);
 
         }else{
 
             return response([
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
+                'user' => $user,
                 'rol' => $user->roles->implode('name', ','),
+                'message' => 'Informacion no Disponible'
             ], 200);
         }
 
@@ -44,9 +36,10 @@ class DomicilioController extends Controller
 
     public function domiciliosLibres()
     {
-        $domicilios = Domicilio::where('estado', 'Libre')->orderBy('id', 'DESC')->get();
+        $domicilios = Domicilio::where('estado', 'Libre')->with('admin:id,name')->orderBy('id', 'DESC')->get();
 
         return response([
+            'ok' => true,
             'domicilios' => $domicilios,
         ], 200);
     }
@@ -74,17 +67,16 @@ class DomicilioController extends Controller
                     ]);
     
                     return response([
-                        'id' => $user->id,
-                        'domicilio' => $domicilio,
+                        'message' => 'Domicilio Asignado correctamente'
                     ], 200);
                 }else{
                     return response([
-                        'Error' => 'No disponible'
+                        'message' => 'No disponible'
                     ], 401);
                 }
             }else{
                 return response([
-                    'Error' => 'No disponible'
+                    'message' => 'No disponible'
                 ], 401);
             }
 
@@ -95,27 +87,22 @@ class DomicilioController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'rol' => $user->roles->implode('name', ','),
+                'message' => 'Informacion no Disponible'
             ], 200);
         }
 
-
-
     }
 
-    public function bonificados(Request $request)
+    public function bonificados($id)
     {
-        Validator::make($request->all(), [
-            'id' => 'required',
-        ])->validate();
-
-        $user = User::find($request->id);
+        $user = User::find($id);
 
         if($user->roles->implode('name', ',') == 'DOMICILIARIO'){
             
             $pagos = $user->pagos()->get();
 
             return response([
-                'id_user' => $user->id,
+                'ok' => true,
                 'pagos' => $pagos,
             ], 200);
 
@@ -126,6 +113,7 @@ class DomicilioController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'rol' => $user->roles->implode('name', ','),
+                'message' => 'Informacion no Disponible'
             ], 200);
         }
 
@@ -142,10 +130,10 @@ class DomicilioController extends Controller
 
         if($user->roles->implode('name', ',') == 'DOMICILIARIO'){
 
-            $domicilios = pagos::find($request->id_pago)->domicilios()->get();
-
+            $domicilios = pagos::find($request->id_pago)->domicilios()->with('admin:id,name')->get();
+        
             return response([
-                'id_user' => $user->id,
+                'ok' => true,
                 'domicilios' => $domicilios,
             ], 200);
 
@@ -156,6 +144,7 @@ class DomicilioController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'rol' => $user->roles->implode('name', ','),
+                'message' => 'Informacion no Disponible'
             ], 200);
         }
 
@@ -185,18 +174,17 @@ class DomicilioController extends Controller
                     ]);
     
                     return response([
-                        'id' => $user->id,
-                        'domicilio' => $domicilio,
+                        'message' => 'Domicilio marcado correctamente'
                     ], 200);
                 }else{
                     return response([
-                        'Error' => 'No disponible'
+                        'message' => 'No disponible'
                     ], 401);
                 }
                 
             }else{
                 return response([
-                    'Error' => 'No disponible'
+                    'message' => 'No disponible'
                 ], 401);
             }
 

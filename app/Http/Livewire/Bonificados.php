@@ -24,7 +24,7 @@ class Bonificados extends Component
             $codigo = sprintf("%05d", $codigo);
 
             $pago = pagos::create([
-                'codigo' => $codigo,
+                'codigo' => 'PG'.$codigo,
                 'cant' => $domiciliario->domiciliosDomic->where('estado', 'Entregado')->count(),
                 'domiciliario_id' => $domiciliario->id
             ]);

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model\Token;
 
 class AuthController extends Controller
 {
@@ -15,27 +16,31 @@ class AuthController extends Controller
     {
         
         Validator::make($request->all(), [
+            'identificacion' => 'required',
             'name' => 'required|string|max:255',
+            'telefono' => 'required',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed',
         ])->validate();
 
         $user  = User::create([
+            'identificacion' => $request->identificacion,
             'name' => $request->name,
+            'telefono' => $request->telefono,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'estado' => 'Activo'
         ]);
 
         $user->assignRole('GUEST');
 
+        $usuario = User::find($user->id);
+
         $token = $user->createToken($user->name);
 
         return response([
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at,
+            'ok' => true,
+            'user' => $usuario,
             'token' => $token->accessToken,
             'token_expires_at' => $token->token->expires_at,
         ], 200);
@@ -53,22 +58,18 @@ class AuthController extends Controller
 
         if(!$user || !Hash::check($request->password, $user->password)){
             return response([
-                'noti' => 'Invalid login credential!!'
+                'message' => 'Error',
+                'errors' => 'Invalid login credential!!'
             ], 401);
         }
 
         $token = $user->createToken($user->name);
 
         return response([
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at,
+            'ok' => true,
+            'user' => $user,
             'token' => $token->accessToken,
             'token_expires_at' => $token->token->expires_at,
-            //'token' => $tokenssToken,
-            //'token_expires_at' => $token->token->expires_at->acce,
         ], 200);
     }
 
@@ -91,5 +92,24 @@ class AuthController extends Controller
 
         return response(['message' => 'Logged Successful !!'], 200);
 
+    }
+
+    public function checkToken(Request $request){
+        
+        $user = Auth::guard('api')->user();
+
+        $user->tokens->each(function ($token) {
+            $token->delete();
+        });
+
+        $usuario = User::find($user->id);
+
+        $token = $user->createToken($usuario->name);
+        return response([
+            'ok' => true,
+            'user' => $usuario,
+            'token' => $token->accessToken,
+            'token_expires_at' => $token->token->expires_at,
+        ], 200);
     }
 }

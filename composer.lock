@@ -4845,6 +4845,7 @@
                 }
             ],
             "time": "2022-09-16T03:22:46+00:00"
+<<<<<<< HEAD
         },
         {
             "name": "ratchet/rfc6455",
@@ -5701,6 +5702,8 @@
                 "source": "https://github.com/ringcentral/psr7/tree/master"
             },
             "time": "2018-05-29T20:21:04+00:00"
+=======
+>>>>>>> aws
         },
         {
             "name": "spatie/laravel-permission",

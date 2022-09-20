@@ -2,6 +2,20 @@
     @include('livewire.domicilio.modal-create')
     @include('livewire.domicilio.modal-show')
 
+    <div class="row ">
+        <div class="col-md-12 flex justify-center p-1">
+            
+            @role('ROOT|ADMINISTRADOR')
+            @if ($swSiguiente == true)
+                
+            <button type="button" class="mt-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition " style="margin-inline-end: 10px;" wire:click="storeAuto" aria-label="Close">Auto-asignar Domiciilios</button>  
+            @endif
+            <button type="button" class="mt-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition" style="margin-inline-end: 10px;" wire:click="abrirModal({{Auth::user()->id}},'Create')" aria-label="Close">Asignar Domicilio</button>  
+            <button type="button" class="mt-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition" style="margin-inline-end: 10px;" wire:click="storeLibre" aria-label="Close">Domicilio Libre</button>  
+            @endrole
+        </div>
+    </div>
+    
     <table class="w-full divide-y divide-gray-200">
         <thead>
           <tr >
@@ -21,14 +35,14 @@
                   Estado
               </th>
               <th scope="col" class="px-6 py-3 bg-gray-200 text-gray-600 text-center text-xs font-medium  uppercase tracking-wider" style="width: 16%;">
-                @role('ROOT|ADMINISTRADOR')
+               {{-- @role('ROOT|ADMINISTRADOR')
                 @if ($swSiguiente == true)
                     
                 <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition" wire:click="storeAuto" aria-label="Close">Auto</button>  
                 @endif
                 <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition" wire:click="abrirModal({{Auth::user()->id}},'Create')" aria-label="Close">Abrir</button>  
-                <button type="button" class="mt-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition" wire:click="storeLibre" aria-label="Close">Abrir 2</button>  
-                @endrole
+                <button type="button" class="mt-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition" wire:click="storeLibre" aria-label="Close">Libre</button>  
+                @endrole--}}
               </th>
           </tr>
         </thead>

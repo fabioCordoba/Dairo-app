@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use App\Events\RealTimeEvent;
+use App\Notifications\RealTimeNotification;
+use App\Events\DomicilioLibreEvent;
 
 
 class Domicilios extends Component
@@ -70,6 +73,8 @@ class Domicilios extends Component
 
             if($this->domiciliario == null){
                 $this->domiciliario = Auth::user()->id;
+            }else{
+                $user = User::find($this->domiciliario);
             }
 
             //dd($this->domiciliario);
@@ -88,12 +93,16 @@ class Domicilios extends Component
             
             $codigo = sprintf("%05d", $codigo);
 
-            Domicilio::create([
+            $user = User::find($this->domiciliario);
+
+            $domi = Domicilio::create([
                 'codigo' => 'DM'.$codigo,
                 'admin_id' => Auth::user()->id,
-                'domiciliario_id' => $this->domiciliario,
+                'domiciliario_id' => $user->id,
                 'estado' => 'Asignado'
             ]);
+
+            $user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
 
             $this->swSiguiente = true;
 
@@ -102,18 +111,37 @@ class Domicilios extends Component
 
         }else if($this->swstore == 'Edit'){
 
-            if($this->estado != null){
-                $this->domicilio->update([
-                    'domiciliario_id' => $this->domiciliario,
-                    'estado' => $this->estado
-                ]);
+            if($this->domiciliario != Auth::user()->id){
+
+                if($this->estado != null){
+                    $this->domicilio->update([
+                        'domiciliario_id' => $user->id,
+                        'estado' => $this->estado
+                    ]);
+    
+                }else{
+                    $this->domicilio->update([
+                        'domiciliario_id' => $user->id,
+                    ]);
+                }
+
+                $user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $this->domicilio->codigo));
 
             }else{
-                $this->domicilio->update([
-                    'domiciliario_id' => $this->domiciliario,
-                ]);
-            }
 
+                if($this->estado != null){
+                    $this->domicilio->update([
+                        'domiciliario_id' => $this->domiciliario,
+                        'estado' => $this->estado
+                    ]);
+    
+                }else{
+                    $this->domicilio->update([
+                        'domiciliario_id' => $this->domiciliario,
+                    ]);
+                }
+
+            }
 
             $this->swSiguiente = true;
             $this->closeModal('Create');
@@ -169,12 +197,14 @@ class Domicilios extends Component
                 
             if($next){
     
-                Domicilio::create([
+                $domi = Domicilio::create([
                     'codigo' => 'DM'.$codigo,
                     'admin_id' => Auth::user()->id,
                     'domiciliario_id' => $next->id,
                     'estado' => 'Asignado'
                 ]);
+
+                $next->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
     
                 $this->closeModal('Create');
                 $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
@@ -182,12 +212,15 @@ class Domicilios extends Component
     
             }else{
     
-                Domicilio::create([
+                $user = $dom->first();
+                $domi = Domicilio::create([
                     'codigo' => 'DM'.$codigo,
                     'admin_id' => Auth::user()->id,
-                    'domiciliario_id' => $dom->first()->id,
+                    'domiciliario_id' => $user->id,
                     'estado' => 'Asignado'
                 ]);
+
+                $user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
     
                 $this->closeModal('Create');
                 $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
@@ -222,9 +255,13 @@ class Domicilios extends Component
             'estado' => 'Libre'
         ]);
 
+        
+
         $this->swSiguiente = false;
         $this->closeModal('Create');
         $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
+
+        event(new DomicilioLibreEvent('se a abierto un nuevo Domicilio Libre'));
 
 
     }

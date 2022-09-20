@@ -32,5 +32,13 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
      disableStats: true,
  });
 
- window.Echo.channel('test').listen('RealTimeEvent', (e) => console.log(' -> ' + e.message));
+ window.Echo.private('event').listen('RealTimeEvent', (e) => console.log('RealTimeEvent: channel: event -> ' + e.message));
+
+ window.Echo.private('channel-dom-libre').listen('DomicilioLibreEvent', (e) => console.log('DomicilioLibreEvent: channel: channel-dom-libre -> ' + e.message));
+
+ window.Echo.private('App.Models.User.5')
+ .notification((notification) => {
+   console.log(notification.message);
+ });
+
 

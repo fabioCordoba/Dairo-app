@@ -37,6 +37,6 @@ class DomicilioLibreEvent implements ShouldBroadcast
     }
 
     public function broadcastAs(){
-        return 'domicilio-libre- event';
+        return 'domicilio-libre-event';
     }
 }

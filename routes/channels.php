@@ -21,8 +21,7 @@ Broadcast::channel('channel-dom-libre', function ($user) {
     return true;
 });
 
-Broadcast::channel('event', function ($user) {
+/*Broadcast::channel('event', function ($user) {
     return true;
-});
-
+});*/
 

@@ -14,6 +14,9 @@ use App\Models\User;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Broadcast::routes(['middleware' => ['auth:api']]);
+
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register']);
 

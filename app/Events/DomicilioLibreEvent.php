@@ -35,4 +35,8 @@ class DomicilioLibreEvent implements ShouldBroadcast
     {
         return new PrivateChannel('channel-dom-libre');
     }
+
+    public function broadcastAs(){
+        return 'domicilio-libre- event';
+    }
 }

@@ -17,13 +17,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Route::group(['middleware'=>['auth:api']], function () {
-    
-
-    Broadcast::channel('channel-dom-libre', function ($user) {
-        return true;
-    });
-
+Broadcast::channel('channel-dom-libre', function ($user) {
+    return true;
 });
 
 /*Broadcast::channel('event', function ($user) {

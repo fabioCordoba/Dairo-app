@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
-use App\Events\RealTimeEvent;
+use App\Events\TestEvent;
 use App\Notifications\RealTimeNotification;
 use App\Events\DomicilioLibreEvent;
 
@@ -261,6 +261,7 @@ class Domicilios extends Component
         $this->closeModal('Create');
         $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
 
+        event(new TestEvent("se a abierto un nuevo Domicilio Libre"));
         event(new DomicilioLibreEvent('se a abierto un nuevo Domicilio Libre'));
 
 

@@ -24,6 +24,7 @@ Route::group(['middleware'=>['auth:api']], function () {
     Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout']);
 
     Route::get('/checkToken', [App\Http\Controllers\AuthController::class, 'checkToken']);
+    Route::post('/saveTokenDevice', [App\Http\Controllers\AuthController::class, 'saveToken']);
 
     Route::get('/domicilios/user/{id}', [App\Http\Controllers\DomicilioController::class, 'misDomicilios']);
     Route::get('/domicilios/libres', [App\Http\Controllers\DomicilioController::class, 'domiciliosLibres']);

@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\DeviceToken;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model\Token;
 
@@ -112,4 +113,24 @@ class AuthController extends Controller
             'token_expires_at' => $token->token->expires_at,
         ], 200);
     }
+
+    public function saveToken(Request $request)
+    {
+        Validator::make($request->all(), [
+            'tokenDevice' => 'required|string|unique:device_tokens,device_token',
+        ])->validate();
+
+        $user = Auth::guard('api')->user();
+
+        $tokenDevice = DeviceToken::create([
+            'device_token' => $request->tokenDevice,
+            'user_id'      => $user->id
+        ]);
+
+        return response([
+            'ok' => true,
+            'tokenDevice' => $tokenDevice->device_token
+        ]);
+    }
+
 }

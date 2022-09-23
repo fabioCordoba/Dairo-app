@@ -7,7 +7,7 @@
             
             @role('ROOT|ADMINISTRADOR')
 
-            @if ($domicilios)
+            @if ($domicilios->count() > 0)
                 @if ($domicilios->first()->estado != 'Libre')
                     
                 <button type="button" class="mt-1 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition " style="margin-inline-end: 10px;" wire:click="storeAuto" wire:loading.attr="disabled" aria-label="Close">Auto-asignar Domiciilios</button>  

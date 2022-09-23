@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Admin - Dairo-App') }}</title>
+        <link rel="shortcut icon" href="{!! asset('images/jpg/food.png')!!}" />
 
         <!-- Fonts -->
 
@@ -39,6 +40,13 @@
             <main>
                 {{ $slot }}
             </main>
+
+            <footer class="footer">
+                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Desarrollador <a href="https://www.linkedin.com/in/fabio-cordoba-5a8370113/" target="_blank">Fabio Cordoba</a> Ingeniero de Sistemas</span>
+                  <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2022. Derechos reservados.</span>
+                </div>
+            </footer>
         </div>
 
         @stack('modals')

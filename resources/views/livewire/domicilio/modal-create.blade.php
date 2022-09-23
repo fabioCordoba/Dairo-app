@@ -67,7 +67,7 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <button type="button" class="btn btn-sm btn-outline-info" wire:click="Store">Crear</button>
+                                <button type="button" class="btn btn-sm btn-outline-info" wire:click="Store" wire:loading.attr="disabled">Crear</button>
                             </div>
                             
                         </div>

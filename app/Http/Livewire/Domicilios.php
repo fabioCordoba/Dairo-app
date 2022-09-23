@@ -11,6 +11,8 @@ use Livewire\WithFileUploads;
 use App\Events\TestEvent;
 use App\Notifications\RealTimeNotification;
 use App\Events\DomicilioLibreEvent;
+use GuzzleHttp\Client;
+use App\Models\DeviceToken;
 
 
 class Domicilios extends Component
@@ -18,7 +20,16 @@ class Domicilios extends Component
     use WithFileUploads;
 
     public $domicilio, $admin, $domiciliario, $swstore, $domicilios, $estado, $swSiguiente;
+    private $client;
     protected $listeners = ['say-delete' => 'delete'];
+
+    public function __construct()
+    {
+        $this->client = new Client([
+            'base_uri' => 'https://fcm.googleapis.com'
+        ]);
+
+    }
 
     public function abrirModal($id, $modal){
 
@@ -102,7 +113,27 @@ class Domicilios extends Component
                 'estado' => 'Asignado'
             ]);
 
-            $user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
+            //$user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
+
+            //notificacion
+
+            $titulo = "Solicitud - " . Auth::user()->name;
+            $mensaje = Auth::user()->name . ' te asigno un nuevo Domicilio, CODIGO: ' . $domi->codigo;
+
+            if($user->devicesToken()->count() !=  0){
+                if($user->devicesToken()->count() >  1){
+                    foreach ($user->devicesToken()->get() as $key => $value) {
+                        $device = $value->device_token;
+                        $this->notificacion($titulo, $mensaje, $device);
+                    }
+
+                }else{
+                    
+                    $device = $user->devicesToken->device_token;
+                    $this->notificacion($titulo, $mensaje, $device);
+                }
+            }
+            //notificacion
 
             $this->swSiguiente = true;
 
@@ -125,7 +156,26 @@ class Domicilios extends Component
                     ]);
                 }
 
-                $user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $this->domicilio->codigo));
+                //$user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $this->domicilio->codigo));
+                //notificacion
+
+                $titulo = "Solicitud - " . Auth::user()->name;
+                $mensaje = Auth::user()->name . ' te asigno este Domicilio, o realizo un cambio, CODIGO: ' . $this->domicilio->codigo;
+
+                if($user->devicesToken()->count() !=  0){
+                    if($user->devicesToken()->count() >  1){
+                        foreach ($user->devicesToken()->get() as $key => $value) {
+                            $device = $value->device_token;
+                            $this->notificacion($titulo, $mensaje, $device);
+                        }
+
+                    }else{
+                        
+                        $device = $user->devicesToken->device_token;
+                        $this->notificacion($titulo, $mensaje, $device);
+                    }
+                }
+                //notificacion
 
             }else{
 
@@ -204,7 +254,26 @@ class Domicilios extends Component
                     'estado' => 'Asignado'
                 ]);
 
-                $next->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
+                //$next->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
+                 //notificacion
+
+                 $titulo = "Solicitud - " . Auth::user()->name;
+                 $mensaje = Auth::user()->name . ' te asigno un nuevo Domicilio, CODIGO: ' . $domi->codigo;
+ 
+                 if($next->devicesToken()->count() !=  0){
+                     if($next->devicesToken()->count() >  1){
+                         foreach ($next->devicesToken()->get() as $key => $value) {
+                             $device = $value->device_token;
+                             $this->notificacion($titulo, $mensaje, $device);
+                         }
+ 
+                     }else{
+                         
+                         $device = $next->devicesToken->device_token;
+                         $this->notificacion($titulo, $mensaje, $device);
+                     }
+                 }
+                 //notificacion
     
                 $this->closeModal('Create');
                 $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
@@ -220,7 +289,27 @@ class Domicilios extends Component
                     'estado' => 'Asignado'
                 ]);
 
-                $user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
+                //$user->notify(new RealTimeNotification('Se te asigno un nuevo Domicilio, cod: ' . $domi->codigo));
+
+                //notificacion
+
+                $titulo = "Solicitud - " . Auth::user()->name;
+                $mensaje = Auth::user()->name . ' te asigno un nuevo Domicilio, CODIGO: ' . $domi->codigo;
+
+                if($user->devicesToken()->count() !=  0){
+                    if($user->devicesToken()->count() >  1){
+                        foreach ($user->devicesToken()->get() as $key => $value) {
+                            $device = $value->device_token;
+                            $this->notificacion($titulo, $mensaje, $device);
+                        }
+
+                    }else{
+                        
+                        $device = $user->devicesToken->device_token;
+                        $this->notificacion($titulo, $mensaje, $device);
+                    }
+                }
+                //notificacion
     
                 $this->closeModal('Create');
                 $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
@@ -249,22 +338,62 @@ class Domicilios extends Component
         
         $codigo = sprintf("%05d", $codigo);
 
-        Domicilio::create([
+        $domicilio = Domicilio::create([
             'codigo' => 'DM'.$codigo,
             'admin_id' => Auth::user()->id,
             'estado' => 'Libre'
         ]);
 
-        
-
         $this->swSiguiente = false;
         $this->closeModal('Create');
+        
+        //event(new TestEvent("se a abierto un nuevo Domicilio"));
+        //event(new DomicilioLibreEvent('se a abierto un nuevo Domicilio'));
+
+        //notificacion
+
+        $dispositivos = DeviceToken::all();
+
+
+        foreach ($dispositivos as $key => $value) {
+
+            $titulo = "Solicitud - " . Auth::user()->name;
+            $mensaje = Auth::user()->name . " Abrio un Domicilio, CODIGO: ". $domicilio->codigo;
+            $device = $value->device_token;
+
+
+            $this->notificacion($titulo, $mensaje, $device);
+            
+        }
+
+        //fin notificacion
+
         $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
 
-        event(new TestEvent("se a abierto un nuevo Domicilio"));
-        event(new DomicilioLibreEvent('se a abierto un nuevo Domicilio'));
+    }
 
+    public function notificacion(String $titulo, String $mensaje, String $device){
+        $requestUrl = "/fcm/send";
+        $headers = [
+            'Authorization' => env('AUTHORIZATION_KEY'),
+            'Content-Type' => 'application/json'
+          ];
 
+        $body = [
+            "to" => $device,
+            "notification" => [
+                "title" => $titulo,
+                "body"  => $mensaje
+            ],
+        ];
+
+        $response = $this->client->request('POST', $requestUrl, [
+            'headers' => $headers, 
+            'body' => json_encode($body)
+            ]
+        );
+
+        $data = json_decode($response->getBody());
     }
 
     public function render()

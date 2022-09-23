@@ -46,13 +46,13 @@
                             
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
-                            <div class="text-sm text-gray-900">{{$pago->created_at}}</div>
-                            <div class="text-sm text-gray-900">{{$pago->updated_at}}</div>
+                            <div class="text-sm text-gray-900">{{ date('F j, Y, g:i a', strtotime($pago->created_at)); }}</div>
+                            <div class="text-sm text-gray-900">{{ date('F j, Y, g:i a', strtotime($pago->updated_at)); }}</div>
                         </td>
                         <td style="width: 170px;">
                             <div class="flex item-center justify-center">
                                 
-                                <button type="button" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" wire:click="abrirModal({{$pago->id}},'Show')" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Domicilios">
+                                <button type="button" class="w-5 mr-2 transform hover:text-purple-500 hover:scale-110" wire:click="abrirModal({{$pago->id}},'Show')" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Domicilios">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

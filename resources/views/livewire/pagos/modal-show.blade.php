@@ -40,8 +40,8 @@
                                     
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <div class="text-sm text-gray-900">{{$domicilio->created_at}}</div>
-                                    <div class="text-sm text-gray-900">{{$domicilio->updated_at}}</div>
+                                    <div class="text-sm text-gray-900">{{ date('F j, Y, g:i a', strtotime($domicilio->created_at)); }}</div>
+                                    <div class="text-sm text-gray-900">{{ date('F j, Y, g:i a', strtotime($domicilio->updated_at)); }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">

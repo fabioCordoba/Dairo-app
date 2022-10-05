@@ -137,7 +137,7 @@
                             @endif
                         </td>
                         <td style="width: 170px;">
-                          @if (Auth::user()->roles->implode('name', ',') == 'ADMINISTRADOR' && $domicilio->estado != 'Pagado' )
+                          @if (Auth::user()->roles->implode('name', ',') == 'ROOT' || Auth::user()->roles->implode('name', ',') == 'ADMINISTRADOR' && $domicilio->estado != 'Pagado' )
 
                             @if (Auth::user()->id == $domicilio->admin->id)
                                 <div class="flex item-center justify-center">

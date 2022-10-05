@@ -13,12 +13,18 @@ class pagos extends Model
         'codigo',
         'cant',
         'valor',
-        'domiciliario_id'
+        'domiciliario_id',
+        'admin_id'
     ];
 
     public function domiciliario()
     {
         return $this->belongsTo('App\Models\User', 'domiciliario_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo('App\Models\User', 'admin_id');
     }
 
     public function domicilios()

@@ -18,7 +18,7 @@ class Users extends Component
         $this->user = User::find($id);
         
         if($modal == 'Edit'){
-            $this->roles = Role::get()->pluck('name');
+            $this->roles = Role::where('name', '!=', 'ROOT')->get()->pluck('name');
             $this->name = $this->user->name;
             $this->email = $this->user->email;
             $this->identificacion = $this->user->identificacion;

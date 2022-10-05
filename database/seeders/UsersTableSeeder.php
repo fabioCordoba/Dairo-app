@@ -16,6 +16,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $super = User::create([
+            'identificacion' => '0000000009',
+            'name' => 'Su',
+            'telefono' => '3100000000',
+            'email' => 'supersu@gmail.com',
+            'password' => Hash::make('supersuf4'),
+            'estado' => 'Activo'
+        ]);
+
+        $super->assignRole('ROOT');
+
         $admin = User::create([
             'identificacion' => '0000000001',
             'name' => 'Servi Plus & Mini Market',

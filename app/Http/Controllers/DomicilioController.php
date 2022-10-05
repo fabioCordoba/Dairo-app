@@ -99,7 +99,7 @@ class DomicilioController extends Controller
 
         if($user->roles->implode('name', ',') == 'DOMICILIARIO'){
             
-            $pagos = $user->pagos()->get();
+            $pagos = $user->pagos()->select('id','codigo','cant','valor','domiciliario_id','created_at','updated_at')->get();
 
             return response([
                 'ok' => true,

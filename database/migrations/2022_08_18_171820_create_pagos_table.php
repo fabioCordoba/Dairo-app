@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('valor')->nullable();
             $table->unsignedBigInteger('domiciliario_id');
             $table->foreign('domiciliario_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('admin_id');
+            $table->foreign('admin_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

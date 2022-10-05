@@ -39,7 +39,8 @@ class Bonificados extends Component
             $pago = pagos::create([
                 'codigo' => 'PG'.$codigo,
                 'cant' => $domiciliario->domiciliosDomic->where('estado', 'Entregado')->count(),
-                'domiciliario_id' => $domiciliario->id
+                'domiciliario_id' => $domiciliario->id,
+                'admin_id' => Auth::user()->id
             ]);
 
             foreach ($domiciliario->domiciliosDomic->where('estado', 'Entregado') as $key => $value) {

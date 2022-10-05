@@ -42,7 +42,8 @@
                             
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                            {{$pago->domiciliario->name}}
+                            <div class="text-sm text-gray-900">{{$pago->domiciliario->name}}</div>
+                            <div class="text-sm text-gray-900">admin: {{$pago->admin->name}}</div>
                             
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">

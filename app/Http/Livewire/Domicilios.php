@@ -150,6 +150,7 @@ class Domicilios extends Component
 
             $this->swSiguiente = true;
 
+            $this->mount();
             $this->closeModal('Create');
             $this->dispatchBrowserEvent('success');
 
@@ -207,6 +208,7 @@ class Domicilios extends Component
             }
 
             $this->swSiguiente = true;
+            $this->mount();
             $this->closeModal('Create');
             $this->dispatchBrowserEvent('msj',['msj' => 'Registro Actualizado con exito.', 'tipo' => 'alert-success']);
 
@@ -224,6 +226,7 @@ class Domicilios extends Component
             'estado' => 'Eliminado'
         ]);
 
+        $this->mount();
         $this->dispatchBrowserEvent('Delete');
     }
 
@@ -288,6 +291,7 @@ class Domicilios extends Component
                  }
                  //notificacion
     
+                 $this->mount();
                 $this->closeModal('Create');
                 $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
                 
@@ -335,6 +339,7 @@ class Domicilios extends Component
         Domicilio::find($id)->update([
             'estado' => 'Entregado'
         ]);
+        $this->mount();
         $this->dispatchBrowserEvent('msj',['msj' => 'Domicilio Marcado Como Entregado.', 'tipo' => 'alert-success']);
     }
 
@@ -381,6 +386,7 @@ class Domicilios extends Component
 
         //fin notificacion
 
+        $this->mount();
         $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
 
     }
@@ -421,7 +427,6 @@ class Domicilios extends Component
                 ]);
 
                 if ($this->opcionBusqueda == 'admin') {
-                    //dd($this->opcionBusqueda, $this->parametroBusqueda);
                     $this->domicilios = Domicilio::where('admin_id', 'LIKE', "%{$this->parametroBusqueda}%")->get();
                 }else if($this->opcionBusqueda == 'domiciliario'){
                     $this->domicilios = Domicilio::where('domiciliario_id', 'LIKE', "%{$this->parametroBusqueda}%")->get();

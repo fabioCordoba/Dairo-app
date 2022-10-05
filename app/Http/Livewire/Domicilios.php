@@ -172,7 +172,6 @@ class Domicilios extends Component
                 if($user->devicesToken()->count() >  0){
                     foreach ($user->devicesToken()->get() as $key => $value) {
                         $device = $value->device_token;
-                        dd($device);
                         $this->notificacion($titulo, $mensaje, $device);
                     }
                 }

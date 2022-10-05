@@ -271,7 +271,7 @@ class Domicilios extends Component
                  }
                  //notificacion
     
-                 $this->mount();
+                $this->mount();
                 $this->closeModal('Create');
                 $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
                 
@@ -301,6 +301,7 @@ class Domicilios extends Component
                 }
                 //notificacion
     
+                $this->mount();
                 $this->closeModal('Create');
                 $this->dispatchBrowserEvent('msj',['msj' => 'Registro creado con exito.', 'tipo' => 'alert-success']);
             }

@@ -1,10 +1,51 @@
 <div>
     @include('livewire.domicilio.modal-create')
     @include('livewire.domicilio.modal-show')
-    
-    <div class="row ">
-        <div class="col-md-12 flex justify-center p-1">
-            
+
+    <div class="row">
+
+        <div class="col-6 flex justify-center">
+            <div class="input-group input-group-sm mt-1 inline-flex items-center px-3">
+                <select class="custom-select" wire:model="opcionBusqueda">
+                    <option selected>Selecciona una opcion</option>
+                    <option value="codigo">Codigo</option>
+                    <option value="admin">Admin</option>
+                    <option value="domiciliario">Domiciliario</option>
+                    <option value="created_at">Fecha</option>
+                    <option value="all">Todos</option>
+                  </select>
+                @if ($opcionBusqueda == 'created_at')
+                    <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="parametroBusqueda" name="parametroBusqueda" wire:model="parametroBusqueda" placeholder="Digite un parametro de busqueda">
+                @elseif ($opcionBusqueda == 'admin')
+                    <select class="custom-select" wire:model="parametroBusqueda">
+                        <option selected>Selecciona una opcion</option>
+                        @foreach ($admins as $item)
+                            <option value="{{$item->id}}">{{$item->name}}</option>
+                            
+                        @endforeach
+                  </select>
+                @elseif ($opcionBusqueda == 'domiciliario')
+                    <select class="custom-select" wire:model="parametroBusqueda">
+                      <option selected>Selecciona una opcion</option>
+                      @foreach ($domiciliarios as $item)
+                          <option value="{{$item->id}}">{{$item->name}}</option>
+                          
+                      @endforeach
+                    </select>
+                @else
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" id="parametroBusqueda" name="parametroBusqueda" wire:model="parametroBusqueda" placeholder="Digite un parametro de busqueda">
+                    
+                @endif
+                <div class="input-group-append">
+                    <span class="input-group-text" style="color: black;" title="Buscar Empresa" type="button" wire:click="search" wire:loading.attr="disabled">
+                      Buscar
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 flex justify-center p-1">
+
             @role('ROOT|ADMINISTRADOR')
 
             @if ($domicilios->count() > 0)

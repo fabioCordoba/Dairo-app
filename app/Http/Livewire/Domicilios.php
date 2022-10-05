@@ -19,7 +19,7 @@ class Domicilios extends Component
 {
     use WithFileUploads;
 
-    public $domicilio, $admin, $domiciliario, $swstore, $domicilios, $estado, $swSiguiente;
+    public $domicilio, $admin, $domiciliario, $swstore, $domicilios, $estado, $swSiguiente, $opcionBusqueda, $parametroBusqueda, $admins;
     private $client;
     protected $listeners = ['say-delete' => 'delete'];
 
@@ -29,6 +29,19 @@ class Domicilios extends Component
             'base_uri' => 'https://fcm.googleapis.com'
         ]);
 
+    }
+
+    public function mount()
+    {
+        if(Auth::user()->roles->implode('name', ',') == 'DOMICILIARIO'){
+            $this->domicilios = Domicilio::where('domiciliario_id',Auth::user()->id)
+                ->orWhere('estado', 'Libre')
+                ->orderBy('id', 'DESC')->get();
+        }else{
+            $this->domicilios = Domicilio::orderBy('id', 'DESC')->get();
+        }
+
+        $this->admins = User::role('ADMINISTRADOR')->where('estado','Activo')->get();
     }
 
     public function abrirModal($id, $modal){
@@ -396,19 +409,44 @@ class Domicilios extends Component
         $data = json_decode($response->getBody());
     }
 
+    public function search(){
+        try{
+            if($this->opcionBusqueda == 'all'){
+                $this->domicilios = Domicilio::orderBy('id', 'DESC')->get();
+
+            }else{
+                $validatedData = $this->validate([
+                    'opcionBusqueda' => 'required',
+                    'parametroBusqueda' => 'required',
+                ]);
+
+                if ($this->opcionBusqueda == 'admin') {
+                    //dd($this->opcionBusqueda, $this->parametroBusqueda);
+                    $this->domicilios = Domicilio::where('admin_id', 'LIKE', "%{$this->parametroBusqueda}%")->get();
+                }else if($this->opcionBusqueda == 'domiciliario'){
+                    $this->domicilios = Domicilio::where('domiciliario_id', 'LIKE', "%{$this->parametroBusqueda}%")->get();
+                }else{
+
+                    $this->domicilios = Domicilio::where($this->opcionBusqueda, 'LIKE', "%{$this->parametroBusqueda}%")->get();
+                }
+    
+                
+            }
+            
+            $this->dispatchBrowserEvent('msj',['msj' => 'Resultados de la busqueda!', 'tipo' => 'alert-success']);
+            $this->parametroBusqueda = null;
+            $this->opcionBusqueda = null;
+            
+        }catch(\Exception $exception){
+            $this->dispatchBrowserEvent('msj',['msj' => 'Error, Asegurate de seleccionar una opcion y usar un parametro para la busqueda', 'tipo' => 'alert-danger']);
+        }
+    }
+
     public function render()
     {
 
-        if(Auth::user()->roles->implode('name', ',') == 'DOMICILIARIO'){
-            $this->domicilios = Domicilio::where('domiciliario_id',Auth::user()->id)
-                ->orWhere('estado', 'Libre')
-                ->orderBy('id', 'DESC')->get();
-        }else{
-            $this->domicilios = Domicilio::orderBy('id', 'DESC')->get();
-        }
-
         return view('livewire.domicilios',[
-            'domiciliarios' => User::role('DOMICILIARIO')->where('estado','Activo')->get()
+            'domiciliarios' => User::role('DOMICILIARIO')->where('estado','Activo')->get(),
         ]);
     }
 }

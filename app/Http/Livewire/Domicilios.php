@@ -133,16 +133,9 @@ class Domicilios extends Component
             $titulo = "Solicitud - " . Auth::user()->name;
             $mensaje = Auth::user()->name . ' te asigno un nuevo Domicilio, CODIGO: ' . $domi->codigo;
 
-            if($user->devicesToken()->count() !=  0){
-                if($user->devicesToken()->count() >  1){
-                    foreach ($user->devicesToken()->get() as $key => $value) {
-                        $device = $value->device_token;
-                        $this->notificacion($titulo, $mensaje, $device);
-                    }
-
-                }else{
-                    
-                    $device = $user->devicesToken->device_token;
+            if($user->devicesToken()->count() >  0){
+                foreach ($user->devicesToken()->get() as $key => $value) {
+                    $device = $value->device_token;
                     $this->notificacion($titulo, $mensaje, $device);
                 }
             }
@@ -176,16 +169,10 @@ class Domicilios extends Component
                 $titulo = "Solicitud - " . Auth::user()->name;
                 $mensaje = Auth::user()->name . ' te asigno este Domicilio, o realizo un cambio, CODIGO: ' . $this->domicilio->codigo;
 
-                if($user->devicesToken()->count() !=  0){
-                    if($user->devicesToken()->count() >  1){
-                        foreach ($user->devicesToken()->get() as $key => $value) {
-                            $device = $value->device_token;
-                            $this->notificacion($titulo, $mensaje, $device);
-                        }
-
-                    }else{
-                        
-                        $device = $user->devicesToken->device_token;
+                if($user->devicesToken()->count() >  0){
+                    foreach ($user->devicesToken()->get() as $key => $value) {
+                        $device = $value->device_token;
+                        dd($device);
                         $this->notificacion($titulo, $mensaje, $device);
                     }
                 }
@@ -276,16 +263,9 @@ class Domicilios extends Component
                  $titulo = "Solicitud - " . Auth::user()->name;
                  $mensaje = Auth::user()->name . ' te asigno un nuevo Domicilio, CODIGO: ' . $domi->codigo;
  
-                 if($next->devicesToken()->count() !=  0){
-                     if($next->devicesToken()->count() >  1){
-                         foreach ($next->devicesToken()->get() as $key => $value) {
-                             $device = $value->device_token;
-                             $this->notificacion($titulo, $mensaje, $device);
-                         }
- 
-                     }else{
-                         
-                         $device = $next->devicesToken->device_token;
+                 if($next->devicesToken()->count() >  0){
+                     foreach ($next->devicesToken()->get() as $key => $value) {
+                         $device = $value->device_token;
                          $this->notificacion($titulo, $mensaje, $device);
                      }
                  }
@@ -313,16 +293,9 @@ class Domicilios extends Component
                 $titulo = "Solicitud - " . Auth::user()->name;
                 $mensaje = Auth::user()->name . ' te asigno un nuevo Domicilio, CODIGO: ' . $domi->codigo;
 
-                if($user->devicesToken()->count() !=  0){
-                    if($user->devicesToken()->count() >  1){
-                        foreach ($user->devicesToken()->get() as $key => $value) {
-                            $device = $value->device_token;
-                            $this->notificacion($titulo, $mensaje, $device);
-                        }
-
-                    }else{
-                        
-                        $device = $user->devicesToken->device_token;
+                if($user->devicesToken()->count() >  0){
+                    foreach ($user->devicesToken()->get() as $key => $value) {
+                        $device = $value->device_token;
                         $this->notificacion($titulo, $mensaje, $device);
                     }
                 }
@@ -413,6 +386,8 @@ class Domicilios extends Component
         );
 
         $data = json_decode($response->getBody());
+
+        //dd($data);
     }
 
     public function search(){

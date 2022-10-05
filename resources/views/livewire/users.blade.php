@@ -14,6 +14,11 @@
             <p>
                 CC: {{$user->identificacion}} , Telefono: {{$user->telefono}}
             </p>
+            <p>
+                @if ($user->devicesToken())
+                   <span>si tiene {{$user->devicesToken()->count()}}</span>
+                @endif
+            </p>
             </div>
             
             <div class="modal-header">

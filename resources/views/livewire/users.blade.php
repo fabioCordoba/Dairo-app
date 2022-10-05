@@ -16,7 +16,7 @@
             </p>
             <p>
                 @if ($user->devicesToken())
-                   <span>si tiene {{$user->devicesToken()->count()}}</span>
+                   <span>dispositivos: {{$user->devicesToken()->count()}}</span>
                 @endif
             </p>
             </div>

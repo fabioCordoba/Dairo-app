@@ -17,16 +17,6 @@ class Users extends Component
         
         $this->user = User::find($id);
 
-        
-        /*if($this->user->devicesToken()->count() > 0){
-            foreach ($this->user->devicesToken()->get() as $key) {
-                dd($key);
-            }
-
-        }*/
-
-        //dd($this->user->devicesToken()->first());
-        
         if($modal == 'Edit'){
             $this->roles = Role::where('name', '!=', 'ROOT')->get()->pluck('name');
             $this->name = $this->user->name;

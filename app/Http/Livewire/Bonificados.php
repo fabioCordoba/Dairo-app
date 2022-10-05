@@ -63,15 +63,8 @@ class Bonificados extends Component
         $mensaje = Auth::user()->name . ' te genero el pago , CODIGO: ' . $pago->codigo . " x " . $pago->cant . " Domicilios";
 
         if($domiciliario->devicesToken()->count() !=  0){
-            if($domiciliario->devicesToken()->count() >  1){
-                foreach ($domiciliario->devicesToken()->get() as $key => $value) {
-                    $device = $value->device_token;
-                    $this->notificacion($titulo, $mensaje, $device);
-                }
-
-            }else{
-                
-                $device = $domiciliario->devicesToken->device_token;
+            foreach ($domiciliario->devicesToken()->get() as $key => $value) {
+                $device = $value->device_token;
                 $this->notificacion($titulo, $mensaje, $device);
             }
         }
